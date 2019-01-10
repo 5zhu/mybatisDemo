@@ -5,6 +5,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @Auther: geguofeng
@@ -26,6 +27,9 @@ public class Test {
         User user = sqlSession.selectOne("findUserById",1);
         //打印输出结果
         System.out.println(user.toString());
+
+        List<User> list = sqlSession.selectList("findUserByName", "geguo");
+        System.out.println(list.size());
         //5.关闭 SqlSession
         sqlSession.close();
     }

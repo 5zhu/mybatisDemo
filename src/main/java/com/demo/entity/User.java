@@ -87,5 +87,17 @@ public class User {
         this.perset = perset;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", account=" + account +
+                ", gender=" + gender +
+                ", genderEnum='" + genderEnum + '\'' +
+                ", idCard='" + idCard + '\'' +
+                ", perset=" + perset +
+                '}';
+    }
 }

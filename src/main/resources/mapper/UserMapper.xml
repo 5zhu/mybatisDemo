@@ -5,8 +5,20 @@
 <!--namespace 表示命名空间-->
 <mapper namespace="top">
     <select id="findUserById" parameterType="Integer" resultType="com.demo.entity.User">
-        <!--根据队员 ID 获取信息-->
-        <!--#{} 相当与 ?-->
+        <!--根据 ID 获取User信息
+           将sql语句封装到mappedStatement对象当中，所以id="findUserById"是statement的id
+           parameterType ：指定输入的参数类型
+        -->
+
+        <!--#{} 相当与 ? 表示一个占位符 #{}可以是自己定义-->
         select * from t_user where id = #{id}
     </select>
+      <!--与#{}不同 ${}是拼接sql串 ${}中只能是value
+      resultType 单条数据的类型
+      -->
+    <select id="findUserByName" parameterType="String" resultType="com.demo.entity.User">
+        select * from t_user where username like '%${value}%'
+    </select>
+
+
 </mapper>
