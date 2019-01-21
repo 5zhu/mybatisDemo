@@ -1,5 +1,7 @@
 import com.demo.entity.User;
 import com.demo2.mapper.UserMapper;
+import com.demo3.CustomUser;
+import com.demo3.UserCondition;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -8,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @Auther: geguofeng
@@ -42,5 +45,42 @@ public class UserMapperTest {
         User user=userMapper.findUserById(2);
 
         System.out.println(user);
+    }
+
+    @Test
+    public void testInsertUser() throws Exception{
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        User user = new User();
+        user.setUsername("gegf");
+        user.setGender(1);
+        user.setPassword("testtest");
+        user.setPerset(true);
+        user.setAccount(12.34);
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        System.out.println(mapper.insertUserRetKey(user));
+        sqlSession.commit();
+
+        sqlSession.close();
+    }
+
+    @Test
+    public void testFindUserList() throws Exception{
+
+        SqlSession sqlSession=sqlSessionFactory.openSession();
+
+        //创建UserMapper代理对象
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+
+        //调用userMapper的方法
+        UserCondition uc = new UserCondition();
+        User user = new User();
+        user.setUsername("gegf");
+        user.setGender(1);
+        uc.setUser(user);
+
+        List<CustomUser> list = userMapper.findUserList(uc);
+
+        System.out.println(list);
     }
 }

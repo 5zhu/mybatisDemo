@@ -21,17 +21,28 @@
     </select>
 
     <insert id="insertUser" parameterType="com.demo.entity.User">
-        insert into t_user (id, username, password, account, gender, id_card, perset)
-        values (#{id}, #{username}, #{password}, #{account}, #{gender}, #{idCard}, #{perset})
+        insert into t_user (username, password, account, gender, id_card, perset)
+        values (#{username}, #{password}, #{account}, #{gender}, #{idCard}, #{perset})
     </insert>
 
     <insert id="insertUserRetKey" parameterType="com.demo.entity.User">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-            select currval('t_user_seq')
+            select nextval('t_user_seq')
         </selectKey>
-        insert into t_user (username, password, account, gender, id_card, perset)
+        insert into public.t_user (username, password, account, gender, id_card, perset)
         values (#{username}, #{password}, #{account}, #{gender}, #{idCard}, #{perset})
     </insert>
+
+    <!--
+    通过parameterType指定输入参数的类型，类型可以是
+    简单类型
+    hashmap
+    pojo的包装类型
+    -->
+    <select id="findUserList" parameterType="com.demo3.UserCondition"
+            resultType="com.demo3.CustomUser">
+        SELECT * FROM t_user u WHERE u.gender=#{user.gender} AND u.username LIKE '%${user.username}%'
+    </select>
 
 
 </mapper>
